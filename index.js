@@ -47,6 +47,6 @@ app.post('/price', async (req, res) => {
 
 const PORT = 8080;
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`);
 });
