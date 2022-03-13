@@ -1,4 +1,5 @@
-const express = require('express');
+const express = require("express");
+const BigNumber = require("bignumber.js");
 require('dotenv').config();
 
 const app = express();
@@ -25,7 +26,7 @@ app.use(express.json());
 app.get('/price', async (req, res) => {
     try {
         let price = await currencyContract.methods.getCurrentPrice().call();
-        res.send(price);
+        res.send(parseFloat(new BigNumber(price).div(100000000)).toFixed(2).toString());
     } catch (error) {
         console.log(error);
         res.send(error);
@@ -40,7 +41,7 @@ app.post('/price', async (req, res) => {
             return;
         }
         price = await currencyContract.methods.convertCurrency(req.query.amount).call();
-        res.send(price);
+        res.send(parseFloat(new BigNumber(price).div(1000000000000000000)).toFixed(2).toString());
     } catch (error) {
         res.send(error);
     }
