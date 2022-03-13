@@ -22,31 +22,27 @@ let currencyContract = new web3.eth.Contract(currencyABI, contractAddress);
 app.use(express.json());
 
 app.get('/price', async (req, res) => {
-    let price;
     try {
-        price = await currencyContract.methods.getCurrentPrice().call();
-        console.log("price:", price);
+        let price = await currencyContract.methods.getCurrentPrice().call();
+        res.send(price);
     } catch (error) {
         console.log(error);
+        res.send(error);
     }
-    res.status(200).json({ msg: price });
 });
 
 app.post('/price', async (req, res) => {
     let price;
     try {
         if (req.query.amount < 0 || req.query.amount === undefined) {
-            res.status(200).json({ msg: "not valid" });
-            console.log("params:::", req.query.amount);
+            res.send("amount is not valid");
             return;
         }
-        console.log("params:::", req.query.amount);
         price = await currencyContract.methods.convertCurrency(req.query.amount).call();
-        console.log("price:", price);
+        res.send(price);
     } catch (error) {
-        console.log(error);
+        res.send(error);
     }
-    res.status(200).json({ msg: price });
 });
 
 const PORT = 8080;

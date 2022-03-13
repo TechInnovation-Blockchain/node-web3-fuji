@@ -14,5 +14,8 @@
     "@truffle/hdwallet-provider": "^2.0.4",
     "express": "^4.17.3",
     "web3": "^1.7.1"
+  },
+  "engines": {
+    "node": "v12.22.7"
   }
 }
